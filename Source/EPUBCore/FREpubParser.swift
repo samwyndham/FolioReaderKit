@@ -490,3 +490,19 @@ open class FREpubParser: NSObject, SSZipArchiveDelegate {
         try? FileManager.default.removeItem(atPath: epubPathToRemove)
     }
 }
+
+public extension FREpubParser {
+    public func readEpub(url: URL) throws -> FRBook {
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            throw FolioReaderError.bookNotAvailable
+        }
+        
+        // Don't backup with iCloud
+        try addSkipBackupAttributeToItemAtURL(url)
+        
+        book.name = url.lastPathComponent
+        try readContainer(with: url.path)
+        try readOpf(with: url.path)
+        return self.book
+    }
+}
