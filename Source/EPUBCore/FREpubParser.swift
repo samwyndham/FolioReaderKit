@@ -14,7 +14,7 @@ import SSZipArchive
 import ZipArchive
 #endif
 
-class FREpubParser: NSObject, SSZipArchiveDelegate {
+open class FREpubParser: NSObject, SSZipArchiveDelegate {
 
     let book = FRBook()
     private var resourcesBasePath = ""
@@ -484,7 +484,7 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
 
     // MARK: - SSZipArchive delegate
 
-    func zipArchiveWillUnzipArchive(atPath path: String, zipInfo: unz_global_info) {
+    public func zipArchiveWillUnzipArchive(atPath path: String, zipInfo: unz_global_info) {
         guard shouldRemoveEpub else { return }
         guard let epubPathToRemove = epubPathToRemove else { return }
         try? FileManager.default.removeItem(atPath: epubPathToRemove)
